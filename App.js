@@ -1,14 +1,17 @@
 import 'react-native-gesture-handler';
+import { ExpoRoot } from "expo-router";
+import Head from "expo-router/head";
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { ExpoRoot } from 'expo-router';
+import { IngredientsProvider } from './src/context/IngredientsContext';
 
 export default function App() {
-  const context = require.context('./app');
+  const context = require.context("./app");
 
   return (
-    <NavigationContainer>
-      <ExpoRoot context={context} />
-    </NavigationContainer>
+    <IngredientsProvider>
+      <Head.Provider>
+        <ExpoRoot context={context} />
+      </Head.Provider>
+    </IngredientsProvider>
   );
 }
