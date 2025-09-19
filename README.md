@@ -16,6 +16,57 @@ The application is built following modern mobile development principles, includi
 -   **Smart Querying & Filtering:** A flexible browsing screen allows users to view ingredients by recent additions, missing data, location, category, or ripeness check status.
 -   **Full CRUD Functionality:** Users can Create, Read, Update, and Delete (CRUD) ingredients.
 
+    
+## Getting Started
+
+Follow these instructions to set up and run the project on a local development environment.
+
+### Prerequisites
+
+-   **Node.js (LTS version):** Make sure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
+-   **Expo Go App:** Install the "Expo Go" application on your physical iOS or Android device. It is available on the App Store and Google Play Store.
+-   **(Optional) Android Studio:** If you want to run the app on an Android emulator, you will need to install Android Studio and set up a virtual device.
+
+### Installation & Setup
+
+1.  **Unzip the Project:**
+    Unzip the submitted project file (`.zip`) into a folder of your choice.
+
+2.  **Navigate to the Project Directory:**
+    Open a terminal or command prompt and navigate into the project's root folder.
+    ```bash
+    cd path/to/KitchenBuddy
+    ```
+
+3.  **Install Dependencies:**
+    Run the following command to install all the necessary project dependencies listed in `package.json`.
+    ```bash
+    npm install
+    ```
+
+### Running the Application
+
+1.  **Start the Development Server:**
+    Once the dependencies are installed, start the Expo development server with the following command. It is recommended to clear the cache on the first run.
+    ```bash
+    npx expo start -c
+    ```
+
+2.  **Connect Your Device:**
+    The command will start the Metro bundler and display a QR code in the terminal.
+
+    -   **To run on a physical device (iOS or Android):**
+        -   Ensure your phone is connected to the **same Wi-Fi network** as your computer.
+        -   Open the "Expo Go" app on your phone and scan the QR code displayed in the terminal.
+
+    -   **To run on an Android Emulator:**
+        -   Make sure your Android emulator is running.
+        -   Press the `a` key in the terminal where the Expo server is running. Expo will automatically install Expo Go on the emulator and launch the app.
+
+The application should now be running on your device. Any changes saved in the code will trigger a live reload.
+
+  
+
 ---
 
 ## Component Architecture
