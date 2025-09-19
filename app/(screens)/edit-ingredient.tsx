@@ -4,12 +4,15 @@ import {
   KeyboardAvoidingView, Platform, TouchableOpacity, Modal, Switch
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams, useRouter } from 'expo-router';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../../App';
 
 import { useIngredients } from '../../src/context/IngredientsContext';
 import { PlatformPicker } from '../../src/components/PlatformPicker';
 import { Ingredient, IngredientCategory, IngredientLocation, ConfectionType, RipenessStatus } from '../../src/types';
+
+type EditScreenRouteProp = RouteProp<RootStackParamList, 'EditIngredient'>;
 
 const categoryOptions = [ { label: 'Frutta', value: 'fruit' }, { label: 'Verdura', value: 'vegetable' }, { label: 'Latticini', value: 'dairy' }, { label: 'Pesce', value: 'fish' }, { label: 'Carne', value: 'meat' }, { label: 'Liquidi', value: 'liquid' }, { label: 'Altro', value: 'other' }];
 const locationOptions = [ { label: 'Frigorifero', value: 'fridge' }, { label: 'Congelatore', value: 'freezer' }, { label: 'Dispensa', value: 'pantry' }, { label: 'Altro', value: 'other' }];
@@ -23,8 +26,10 @@ const ripenessOptions = [
 ];
 
 export default function EditIngredientScreen() {
-  const router = useRouter();
-  const { ingredientId } = useLocalSearchParams<{ ingredientId: string }>();
+  const navigation = useNavigation();
+  const route = useRoute<EditScreenRouteProp>();
+  const { ingredientId } = route.params; // Leggiamo i parametri da 'route'
+
   const { ingredients, updateIngredient } = useIngredients();
   
   const ingredientToEdit = ingredients.find(ing => ing.id === ingredientId);
@@ -75,7 +80,7 @@ export default function EditIngredientScreen() {
 
     updateIngredient(updatedIngredient);
     Alert.alert('Successo', 'Ingrediente aggiornato!');
-    router.back();
+    navigation.goBack();
   };
 
   const handleFreezeIngredient = () => {

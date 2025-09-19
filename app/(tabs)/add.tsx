@@ -1,5 +1,3 @@
-// app/(tabs)/add.tsx --- VERSIONE FINALE, STABILE E FUNZIONANTE
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView,
   KeyboardAvoidingView, Platform, TouchableOpacity, Modal } from 'react-native';
@@ -7,7 +5,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useLocalSearchParams, useRouter } from 'expo-router'; 
 
-// Usiamo il nostro PlatformPicker stabile
 import { PlatformPicker } from '../../src/components/PlatformPicker'; 
 import { useIngredients } from '../../src/context/IngredientsContext';
 import { Ingredient, IngredientCategory, IngredientLocation, ConfectionType, RipenessStatus } from '../../src/types';

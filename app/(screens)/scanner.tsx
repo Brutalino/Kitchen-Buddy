@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, ActivityIndicator, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useRouter } from 'expo-router';
+// --- NUOVI IMPORT PER LA NAVIGAZIONE ---
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../App';
+
+type ScannerNavigationProp = StackNavigationProp<RootStackParamList, 'Scanner'>;
 
 export default function ScannerScreen() {
-  const router = useRouter();
+  const navigation = useNavigation<ScannerNavigationProp>();
   
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
@@ -21,11 +26,11 @@ export default function ScannerScreen() {
       if (json.status === 1 && json.product) {
         const product = json.product;
         
-        router.push({
-          pathname: "/(tabs)/add",
-          params: {
-            scannedName: product.product_name || '',
-            scannedBrand: product.brands || '',
+        navigation.navigate('HomeTabs', { 
+          screen: 'Add', // Specifichiamo la tab
+          params: { // E i parametri per quella tab
+          scannedName: product.product_name || '',
+          scannedBrand: product.brands || '',
           }
         });
         
