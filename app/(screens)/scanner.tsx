@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, ActivityIndicator, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-// --- NUOVI IMPORT PER LA NAVIGAZIONE ---
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
-
-type ScannerNavigationProp = StackNavigationProp<RootStackParamList, 'Scanner'>;
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert, Button, StyleSheet, Text, View } from 'react-native';
 
 export default function ScannerScreen() {
-  const navigation = useNavigation<ScannerNavigationProp>();
-  
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,11 +19,12 @@ export default function ScannerScreen() {
       if (json.status === 1 && json.product) {
         const product = json.product;
         
-        navigation.navigate('HomeTabs', { 
-          screen: 'Add', // Specifichiamo la tab
-          params: { // E i parametri per quella tab
-          scannedName: product.product_name || '',
-          scannedBrand: product.brands || '',
+        // Usa router.push per tornare alla tab Add con i parametri
+        router.push({
+          pathname: '/(tabs)/add',
+          params: {
+            scannedName: product.product_name || '',
+            scannedBrand: product.brands || '',
           }
         });
         
@@ -80,10 +74,23 @@ export default function ScannerScreen() {
         </View>
         <View style={styles.unfocusedContainer}></View>
       </View>
-      <View style={styles.overlay}>
+      <View style={styles.topOverlay}>
         <Text style={styles.title}>Inquadra un codice a barre</Text>
-        {isLoading && <ActivityIndicator size="large" color="#fff" />}
+        {isLoading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#fff" />
+            <Text style={styles.loadingText}>Ricerca prodotto...</Text>
+          </View>
+        )}
       </View>
+      {scanned && !isLoading && (
+        <View style={styles.rescanContainer}>
+          <Button 
+            title="Tocca per scansionare di nuovo" 
+            onPress={() => setScanned(false)} 
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -112,9 +119,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
   },
-  infoContainer: {
+  topOverlay: {
     position: 'absolute',
-    top: '15%',
+    top: 50,
     width: '100%',
     alignItems: 'center',
   },
@@ -123,7 +130,31 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: 10,
   },
-  permissionContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  infoText: { textAlign: 'center', fontSize: 18, marginBottom: 20 },
+  loadingContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  loadingText: {
+    color: 'white',
+    fontSize: 16,
+    marginTop: 10,
+  },
+  rescanContainer: {
+    position: 'absolute',
+    bottom: 50,
+    width: '80%',
+  },
+  permissionContainer: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    padding: 20,
+  },
+  infoText: { 
+    textAlign: 'center', 
+    fontSize: 18, 
+    marginBottom: 20,
+  },
 });
